@@ -39,7 +39,7 @@ e.g.
     | id          | int         |
     | name        | string      |
     | description | string      |
-    | parentId    | in          |
+    | parentId    | int          |
 6. The app shall have routing, api call, state management(desirable),
 7. The app shall have interactive page layout (Good UI/UX)
 8. The forms in the app should be [Rect Hook Form](https://www.react-hook-form.com/) and have validation
