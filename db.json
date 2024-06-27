@@ -1,0 +1,40 @@
+{
+  "positions": [
+    {
+      "id": "1",
+      "name": "CEO",
+      "description": "Chief Executive Officer",
+      "parentId": null
+    },
+    {
+      "id": "2",
+      "name": "CTO",
+      "description": "Chief Technology Officer",
+      "parentId": 1
+    },
+    {
+      "id": "3",
+      "name": "CFO",
+      "description": "Chief Financial Officer",
+      "parentId": 1
+    },
+    {
+      "id": "4",
+      "name": "Project Manager",
+      "description": "Manages project",
+      "parentId": 2
+    },
+    {
+      "id": "0",
+      "parentId": 3,
+      "description": "Chef Accountant",
+      "name": "Ephrem Habtamu"
+    },
+    {
+      "id": 6,
+      "parentId": 2,
+      "description": "Chief Technology officer",
+      "name": "Ephrem Habtamu"
+    }
+  ]
+}
