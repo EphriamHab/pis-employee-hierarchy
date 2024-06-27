@@ -1,32 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
-
+import { RootState, AppThunk } from './store';
+import  positionApi from '../utils/positionApi';
 import { IPosition } from '../models/types';
-
 
 interface PositionState {
   positions: IPosition[];
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: PositionState = {
-  positions: [
-    {
-      id: 1, name: 'CEO', description: 'Chief Executive Officer', parentId: null,
-      children: []
-    },
-    {
-      id: 2, name: 'CTO', description: 'Chief Technology Officer', parentId: 1,
-      children: []
-    },
-    {
-      id: 3, name: 'CFO', description: 'Manages projects', parentId: 1,
-      children: []
-    },
-    {
-      id: 4, name: 'Project Manager', description: 'Manages projects', parentId: 2,
-      children: []
-    },
-  ],
+  positions: [],
+  loading: false,
+  error: null,
+
 };
 
 const positionSlice = createSlice({
@@ -37,10 +24,11 @@ const positionSlice = createSlice({
       state.positions.push(action.payload);
     },
     updatePosition: (state, action: PayloadAction<IPosition>) => {
-      const index = state.positions.findIndex(p => p.id === action.payload.id);
+      const index = state.positions.findIndex(p => p.id === Number(action.payload.id));
       if (index !== -1) {
         state.positions[index] = action.payload;
-      }
+        console.log('State after update:', state.positions[index]);
+      } 
     },
     deletePosition: (state, action: PayloadAction<number>) => {
       state.positions = state.positions.filter(p => p.id !== action.payload);
@@ -48,9 +36,77 @@ const positionSlice = createSlice({
     setPositions: (state, action: PayloadAction<IPosition[]>) => {
       state.positions = action.payload;
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { addPosition, updatePosition, deletePosition, setPositions } = positionSlice.actions;
+export const { addPosition, updatePosition, deletePosition, setPositions, setLoading,setError,} = positionSlice.actions;
+
+export const fetchPositions = (): AppThunk => async dispatch => {
+  dispatch(setLoading(true));
+  try {
+    const positions = await positionApi.fetchPositions();
+    dispatch(setPositions(positions.map((position:any) => ({
+      ...position,
+      id: Number(position.id), 
+    }))));
+    dispatch(setLoading(false));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      dispatch(setLoading(false));
+    } else {
+      console.error('An unknown error occurred');
+    }
+  }
+};
+
+export const createPosition = (position: IPosition): AppThunk => async dispatch => {
+  try {
+    const newPosition = await positionApi.createPosition(position);
+    dispatch(addPosition(newPosition));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error('An unknown error occurred');
+    }
+  }
+};
+
+export const editPosition = (position: IPosition): AppThunk => async dispatch => {
+  try {
+    const updatedPosition = await positionApi.updatePosition(position);
+    dispatch(updatePosition(updatedPosition));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error('An unknown error occurred');
+    }
+  }
+};
+
+export const removePosition = (id: number): AppThunk => async dispatch => {
+  try {
+    await positionApi.deletePosition(id);
+    dispatch(deletePosition(id));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error('An unknown error occurred');
+    }
+  }
+};
+
 export const selectPositions = (state: RootState) => state.positions.positions;
+export const selectLoading = (state: RootState) => state.positions.loading;
+export const selectError = (state: RootState) => state.positions.error;
+
 export default positionSlice.reducer;
