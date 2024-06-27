@@ -9,7 +9,7 @@
     {
       "id": "2",
       "name": "CTO",
-      "description": "Chief Technology Officer",
+      "description": "Chief Technology Officers",
       "parentId": 1
     },
     {
@@ -21,20 +21,26 @@
     {
       "id": "4",
       "name": "Project Manager",
-      "description": "Manages project",
+      "description": "Manages projects",
       "parentId": 2
     },
     {
       "id": "0",
-      "parentId": 3,
+      "parentId": 2,
       "description": "Chef Accountant",
-      "name": "Ephrem Habtamu"
+      "name": "Ephrem Hab"
     },
     {
       "id": 6,
       "parentId": 2,
       "description": "Chief Technology officer",
       "name": "Ephrem Habtamu"
+    },
+    {
+      "id": 7,
+      "parentId": 1,
+      "description": "Chief o",
+      "name": "COO"
     }
   ]
 }
