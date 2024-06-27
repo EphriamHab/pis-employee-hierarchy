@@ -4,5 +4,4 @@ export interface IPosition{
     name: string;
     description: string;
     parentId: number | null;
-    children: IPosition[];
 }
