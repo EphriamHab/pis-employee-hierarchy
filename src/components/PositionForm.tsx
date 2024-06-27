@@ -3,13 +3,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { Modal, Button, Select, TextInput } from '@mantine/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { IPosition } from '../models/types'; // Define your Position type as needed
+import { IPosition } from '../models/types'; 
 
 interface PositionFormProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: Omit<IPosition , 'id' | 'children'>) => void; // Exclude id and children when creating new positions
-  positions: IPosition []; // List of existing positions to populate the dropdown
+  onSubmit: (data: Omit<IPosition , 'id' | 'children'>) => void; 
+  positions: IPosition []; 
 }
 
 const schema = yup.object().shape({
@@ -24,12 +24,11 @@ const PositionForm: React.FC<PositionFormProps> = ({ isOpen, onClose, onSubmit, 
     defaultValues: {
       name: '',
       description: '',
-      parentId: null, // Set parentId to null instead of undefined
+      parentId: null,
     },
   });
 
   const handleFormSubmit = (data: Omit<IPosition , 'id' | 'children'>) => {
-    // Ensure parentId is either number or null, never undefined
     const positionData = {
       ...data,
       parentId: data.parentId ?? null,
@@ -83,8 +82,8 @@ const PositionForm: React.FC<PositionFormProps> = ({ isOpen, onClose, onSubmit, 
                 placeholder="Select parent position"
                 data={[{ value: 'null', label: 'No Parent' }, ...positions.map(pos => ({ value: pos.id.toString(), label: pos.name }))]}
                 {...field}
-                value={field.value !== null ? field.value.toString() : 'null'} // Ensure the value is a string
-                onChange={(value) => field.onChange(value === 'null' ? null: value)} // Ensure parentId is correctly set
+                value={field.value !== null ? field.value.toString() : 'null'} 
+                onChange={(value) => field.onChange(value === 'null' ? null: value)} 
                 className="w-full"
               />
             )}
