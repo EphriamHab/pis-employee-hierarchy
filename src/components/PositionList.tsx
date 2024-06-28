@@ -59,7 +59,7 @@ const PositionList: React.FC<PositionListProps> = () => {
                 onClick={() => handleDelete(position.id)}
               />
               {positions.some(child => child.parentId === position.id) && (
-                <Button className='cursor-pointer' onClick={() => handleExpandToggle(position.id)}>View Child</Button>
+                <Button className='cursor-pointer bg-blue-400' onClick={() => handleExpandToggle(position.id)}>View Child</Button>
               )}
             </td>
           </tr>
