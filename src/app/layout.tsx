@@ -5,6 +5,7 @@ import "./globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import ClientProviders from "../components/ClientProviders";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
