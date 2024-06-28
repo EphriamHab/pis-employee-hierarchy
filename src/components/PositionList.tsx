@@ -59,7 +59,7 @@ const PositionList: React.FC<PositionListProps> = () => {
                 onClick={() => handleDelete(position.id)}
               />
               {positions.some(child => child.parentId === position.id) && (
-                <IconChevronDown className='cursor-pointer' onClick={() => handleExpandToggle(position.id)} />
+                <Button className='cursor-pointer' onClick={() => handleExpandToggle(position.id)}>View Child</Button>
               )}
             </td>
           </tr>
