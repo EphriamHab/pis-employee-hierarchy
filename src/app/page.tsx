@@ -13,7 +13,7 @@ const Home: React.FC = () => {
         {/* Hero Section */}
         <section
           className="flex items-center justify-center min-h-screen bg-cover bg-center"
-          style={{ backgroundImage: "url(/publicemp.png)" }}
+          style={{ backgroundImage: "url(emp.png)" }}
         >
           <div className="p-10 rounded-lg text-center bg-gray-800 bg-opacity-70 backdrop-blur-lg shadow-lg">
             <h1 className="text-5xl font-bold text-white mb-4">
