@@ -25,18 +25,6 @@
       "parentId": 2
     },
     {
-      "id": "0",
-      "parentId": 2,
-      "description": "Chef Accountant",
-      "name": "Ephrem Hab"
-    },
-    {
-      "id": 6,
-      "parentId": 2,
-      "description": "Chief Technology officer",
-      "name": "Ephrem Habtamu"
-    },
-    {
       "id": 7,
       "parentId": 1,
       "description": "Chief o",
