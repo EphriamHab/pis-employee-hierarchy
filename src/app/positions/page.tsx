@@ -25,7 +25,7 @@ const Position = () => {
 
   return (
   
-      <div className="p-4">
+      <div className="mt-16 p-4">
         <div className="flex justify-between items-center mb-4">
           <Button className="bg-blue-400" onClick={()=>setIsModalOpen(true)}>Add Position</Button>
         </div>
