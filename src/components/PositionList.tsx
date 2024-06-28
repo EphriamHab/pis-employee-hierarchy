@@ -29,7 +29,14 @@ const PositionList: React.FC<PositionListProps> = () => {
   };
 
   const handleDelete = (id: number) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete position ID ${id}?`);
+    const positionToDelete = positions.find(position => position.id === id);
+    const childrenCount = positions.filter(position => position.parentId === id).length;
+  
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete the position "${positionToDelete?.name}"? ` +
+      (childrenCount > 0 ? `This will also delete ${childrenCount} child positions.` : '')
+    );
+  
     if (confirmDelete) {
       dispatch(deletePosition(id));
     }
