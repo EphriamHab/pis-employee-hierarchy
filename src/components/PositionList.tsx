@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { fetchPositions, selectPositions, selectLoading, selectError, deletePosition } from '../store/positionSlice';
-import { Table, Button, Modal } from '@mantine/core';
+import { Group, Button, Modal, Text, Box } from '@mantine/core';
 import { IconEdit, IconTrash, IconChevronDown } from '@tabler/icons-react';
 import PositionDetails from './PositionDetails';
 import { IPosition } from '../models/types';
@@ -15,17 +14,17 @@ const PositionList: React.FC<PositionListProps> = () => {
   const positions: IPosition[] = useSelector(selectPositions);
   const loading: boolean = useSelector(selectLoading);
   const error: string | null = useSelector(selectError);
-  const [expandedRows, setExpandedRows] = useState<number[]>([]);
+  const [expandedNodes, setExpandedNodes] = useState<number[]>([]);
   const [selectedPositionId, setSelectedPositionId] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPositions());
   }, [dispatch]);
-  
-  const handleExpandToggle = (parentId: number) => {
-    setExpandedRows((prev) => 
-      prev.includes(parentId) ? prev.filter(id => id !== parentId) : [...prev, parentId]
+
+  const handleExpandToggle = (nodeId: number) => {
+    setExpandedNodes((prev) =>
+      prev.includes(nodeId) ? prev.filter(id => id !== nodeId) : [...prev, nodeId]
     );
   };
 
@@ -41,53 +40,52 @@ const PositionList: React.FC<PositionListProps> = () => {
     setIsEditModalOpen(true);
   };
 
-  const renderTreeRows = (parent: number | null = null, level: number = 0) => {
+  const renderTreeNodes = (parentId: number | null = null, level: number = 0) => {
     return positions
-      .filter(position => position.parentId === parent)
+      .filter(position => position.parentId === parentId)
       .map(position => (
-        <React.Fragment key={position.id}>
-          <tr className="bg-white border-b hover:bg-gray-50">
-            <td className={`pl-${level * 4} px-6 py-4`}>{position.name}</td>
-            <td className={`pl-${level * 4} px-6 py-4`}>{position.description}</td>
-            <td className="px-6 py-4 flex items-center space-x-2" style={{ paddingLeft: `${level * 1.5}rem` }}>
+        <Box key={position.id} mb="md">
+          <Group style={{ paddingLeft: `${level * 1.5}rem` }}  align="center">
+            <Group>
+              {positions.some(child => child.parentId === position.id) && (
+                <IconChevronDown
+                  size={18}
+                  style={{ transform: expandedNodes.includes(position.id) ? 'rotate(180deg)' : 'rotate(0deg)', cursor: 'pointer' }}
+                  onClick={() => handleExpandToggle(position.id)}
+                />
+              )}
+              <Text>{position.name}</Text>
+              <Text color="black">- {position.description}</Text>
+            </Group>
+            <Group gap="xs">
               <IconEdit
-                className="cursor-pointer text-blue-500 hover:text-blue-700"
+                className="cursor-pointer"
+                color="blue"
+                size={18}
                 onClick={() => handleEdit(position.id)}
               />
               <IconTrash
-                className="cursor-pointer text-red-500 hover:text-red-700"
+                className="cursor-pointer"
+                color="red"
+                size={18}
                 onClick={() => handleDelete(position.id)}
               />
-              {positions.some(child => child.parentId === position.id) && (
-                <Button className='cursor-pointer bg-blue-400' onClick={() => handleExpandToggle(position.id)}>View Child</Button>
-              )}
-            </td>
-          </tr>
-          {expandedRows.includes(position.id) && (
-            <tr key={`${position.id}-children`}>
-              <td colSpan={4} className="p-0">
-                <table className="min-w-full">
-                  <tbody>{renderTreeRows(position.id, level + 1)}</tbody>
-                </table>
-              </td>
-            </tr>
+            </Group>
+          </Group>
+          {expandedNodes.includes(position.id) && (
+            <Box mt="sm">{renderTreeNodes(position.id, level + 1)}</Box>
           )}
-        </React.Fragment>
+        </Box>
       ));
   };
 
   return (
     <>
-      <Table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 tracking-wider">Position Name</th>
-            <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 tracking-wider">Description</th>
-            <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 tracking-wider">Action</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">{renderTreeRows(null)}</tbody>
-      </Table>
+      {loading && <Text>Loading...</Text>}
+      {error && <Text color="red">{error}</Text>}
+      <Box>
+        {renderTreeNodes()}
+      </Box>
       {isEditModalOpen && selectedPositionId !== null && (
         <PositionDetails
           position={positions.find(position => position.id === selectedPositionId) || null}
