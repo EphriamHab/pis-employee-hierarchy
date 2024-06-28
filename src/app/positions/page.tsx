@@ -16,11 +16,11 @@ const Position = () => {
   const handleAddPosition = (data: Omit<IPosition, "id" | "children">) => {
     const newId = positions.length > 0 ? Math.max(...positions.map((p:any) => p.id)) + 1 : 1;
     const newPosition: IPosition = {
-      id: newId, // Assign a default value for the id property
+      id: newId, 
       ...data,
     };
     dispatch(createPosition(newPosition));
-    setIsModalOpen(false); // Close the modal after adding the position
+    setIsModalOpen(false); 
   };
 
   return (
