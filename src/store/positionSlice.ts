@@ -27,7 +27,6 @@ const positionSlice = createSlice({
       const index = state.positions.findIndex(p => p.id === Number(action.payload.id));
       if (index !== -1) {
         state.positions[index] = action.payload;
-        console.log('State after update:', state.positions[index]);
       } 
     },
     deletePosition: (state, action: PayloadAction<number>) => {
