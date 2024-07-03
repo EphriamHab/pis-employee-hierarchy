@@ -7,40 +7,16 @@
       "parentId": null
     },
     {
-      "id": "2",
-      "name": "CTO",
-      "description": "Chief Technology Officers",
-      "parentId": 4
-    },
-    {
-      "id": "3",
-      "name": "CFO",
-      "description": "Chief Financial Officer",
-      "parentId": 1
-    },
-    {
-      "id": "4",
-      "name": "Project Manager",
-      "description": "Manages projects",
-      "parentId": 2
-    },
-    {
-      "id": "7",
+      "id": "5",
       "parentId": 1,
       "description": "Chief o",
       "name": "COO"
     },
     {
-      "id": "8",
-      "parentId": 7,
-      "description": "fggf",
-      "name": "fgf"
-    },
-    {
-      "id": 9,
+      "id": 8,
       "parentId": 1,
-      "description": "Chief Technology officer",
-      "name": "CTO"
+      "description": "Chief Founder",
+      "name": "CFO"
     }
   ]
 }
