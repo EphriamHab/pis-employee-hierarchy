@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Select, TextInput } from '@mantine/core';
-import { editPosition } from '../store/positionSlice';
-import { IPosition } from '../models/types';
-import { useAppDispatch } from '../store/hook';
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Select, TextInput } from "@mantine/core";
+import { editPosition } from "../store/positionSlice";
+import { IPosition } from "../models/types";
+import { useAppDispatch } from "../store/hook";
 
 interface EditPositionModalProps {
   position: IPosition | null;
@@ -10,25 +10,33 @@ interface EditPositionModalProps {
   positions: IPosition[];
 }
 
-const PositionDetails: React.FC<EditPositionModalProps> = ({ position, onClose, positions }) => {
+const PositionDetails: React.FC<EditPositionModalProps> = ({
+  position,
+  onClose,
+  positions,
+}) => {
   const dispatch = useAppDispatch();
-  const [localPosition, setLocalPosition] = useState<IPosition | null>(position);
+  const [localPosition, setLocalPosition] = useState<IPosition | null>(
+    position
+  );
 
   useEffect(() => {
     setLocalPosition(position);
   }, [position]);
 
-  const handleInputChange = (field: keyof IPosition) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (localPosition) {
-      setLocalPosition({ ...localPosition, [field]: event.target.value });
-    }
-  };
+  const handleInputChange =
+    (field: keyof IPosition) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (localPosition) {
+        setLocalPosition({ ...localPosition, [field]: event.target.value });
+      }
+    };
 
   const handleParentPositionChange = (value: string | null) => {
     if (localPosition) {
       setLocalPosition({
         ...localPosition,
-        parentId: value !== 'null' && value !== null ? parseInt(value) : null,
+        parentId: value !== "null" && value !== null ? parseInt(value) : null,
       });
     }
   };
@@ -41,32 +49,42 @@ const PositionDetails: React.FC<EditPositionModalProps> = ({ position, onClose, 
   };
 
   return (
-    <Modal title="Update Position" opened={true} onClose={onClose} size="lg">
+    <Modal
+      title="Update Position"
+      opened={true}
+      onClose={onClose}
+      size="lg"
+      centered
+    >
       <div className="p-4">
         {localPosition && (
           <>
             <TextInput
               value={localPosition.name}
-              onChange={handleInputChange('name')}
+              onChange={handleInputChange("name")}
               placeholder="Enter position name"
               className="mb-2"
             />
             <TextInput
               value={localPosition.description}
-              onChange={handleInputChange('description')}
+              onChange={handleInputChange("description")}
               placeholder="Enter position description"
               className="mb-2"
             />
             <Select
               placeholder="Select parent position"
               data={[
-                { value: 'null', label: 'No Parent' },
+                { value: "null", label: "No Parent" },
                 ...positions.map((pos) => ({
                   value: pos.id.toString(),
                   label: pos.name,
                 })),
               ]}
-              value={localPosition.parentId !== null ? localPosition.parentId.toString() : 'null'}
+              value={
+                localPosition.parentId !== null
+                  ? localPosition.parentId.toString()
+                  : "null"
+              }
               onChange={handleParentPositionChange}
               className="w-full"
             />
