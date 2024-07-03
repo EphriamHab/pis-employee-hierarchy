@@ -1,6 +1,5 @@
-
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   return (
@@ -8,8 +7,15 @@ const Header: React.FC = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Perago</h1>
         <div className="flex gap-4">
-          <Link href="/" className="text-white text-base hover:bg-blue-500 p-2">Home</Link>
-          <Link href="/positions" className="text-white text-base  hover:bg-blue-500 p-2">Position</Link>
+          <Link href="/" className="text-white text-base hover:bg-blue-500 p-2">
+            Home
+          </Link>
+          <Link
+            href="/positions"
+            className="text-white text-base  hover:bg-blue-500 p-2"
+          >
+            Position
+          </Link>
         </div>
       </div>
     </div>
