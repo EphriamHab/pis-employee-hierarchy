@@ -35,6 +35,12 @@
       "parentId": 10,
       "description": "Own product",
       "name": "Product Owner"
+    },
+    {
+      "id": 12,
+      "parentId": 1,
+      "description": "Chief o",
+      "name": "COO"
     }
   ]
 }
