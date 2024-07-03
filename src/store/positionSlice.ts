@@ -32,6 +32,9 @@ const positionSlice = createSlice({
     deletePosition: (state, action: PayloadAction<number>) => {
       state.positions = state.positions.filter(p => p.id !== action.payload);
     },
+    deletePositions: (state, action: PayloadAction<number[]>) => {
+      state.positions = state.positions.filter(p => !action.payload.includes(p.id));
+    },
     setPositions: (state, action: PayloadAction<IPosition[]>) => {
       state.positions = action.payload;
     },
@@ -44,7 +47,7 @@ const positionSlice = createSlice({
   },
 });
 
-export const { addPosition, updatePosition, deletePosition, setPositions, setLoading,setError,} = positionSlice.actions;
+export const { addPosition, updatePosition, deletePosition,deletePositions,setPositions, setLoading,setError,} = positionSlice.actions;
 
 export const fetchPositions = (): AppThunk => async dispatch => {
   dispatch(setLoading(true));
@@ -91,10 +94,15 @@ export const editPosition = (position: IPosition): AppThunk => async dispatch =>
   }
 };
 
-export const removePosition = (id: number): AppThunk => async dispatch => {
+export const removePosition = (id: number): AppThunk => async (dispatch, getState) => {
   try {
-    await positionApi.deletePosition(id);
-    dispatch(deletePosition(id));
+    const positions = getState().positions.positions;
+    const allPositionsToDelete = getAllPositionsToDelete(positions, id);
+
+    for (const positionId of allPositionsToDelete) {
+      await positionApi.deletePosition(positionId);
+      dispatch(deletePosition(positionId));
+    }
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -103,6 +111,18 @@ export const removePosition = (id: number): AppThunk => async dispatch => {
     }
   }
 };
+
+const getAllPositionsToDelete = (positions: IPosition[], parentId: number): number[] => {
+  const positionsToDelete = [parentId];
+  const childPositions = positions.filter(position => position.parentId === parentId);
+
+  for (const childPosition of childPositions) {
+    positionsToDelete.push(...getAllPositionsToDelete(positions, childPosition.id));
+  }
+
+  return positionsToDelete;
+};
+
 
 export const selectPositions = (state: RootState) => state.positions.positions;
 export const selectLoading = (state: RootState) => state.positions.loading;
