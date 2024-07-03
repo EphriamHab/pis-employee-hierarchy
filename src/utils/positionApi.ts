@@ -1,4 +1,4 @@
-// positionApi.ts
+
 import axios from 'axios';
 import { IPosition } from '../models/types';
 
