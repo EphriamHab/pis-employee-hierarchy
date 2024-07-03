@@ -17,6 +17,24 @@
       "parentId": 1,
       "description": "Chief Founder",
       "name": "CFO"
+    },
+    {
+      "id": 9,
+      "parentId": 1,
+      "description": "Chief Technology officer",
+      "name": "CTO"
+    },
+    {
+      "id": 10,
+      "parentId": 9,
+      "description": "Manages project",
+      "name": "Project Manager"
+    },
+    {
+      "id": 11,
+      "parentId": 10,
+      "description": "Own product",
+      "name": "Product Owner"
     }
   ]
 }
